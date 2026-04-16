@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
   :root {
     --bg: #f5f3ee;
     --surface: #ffffff;
@@ -26,7 +26,7 @@
     --radius: 8px;
     --radius-lg: 14px;
   }
- 
+
   body {
     font-family: var(--sans);
     background: var(--bg);
@@ -34,37 +34,37 @@
     min-height: 100vh;
     padding: 2rem 1rem 4rem;
   }
- 
+
   .container {
     max-width: 680px;
     margin: 0 auto;
   }
- 
+
   header {
     margin-bottom: 2.5rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border);
   }
- 
+
   header h1 {
     font-size: 22px;
     font-weight: 600;
     letter-spacing: -0.02em;
     color: var(--text);
   }
- 
+
   header p {
     font-size: 14px;
     color: var(--text3);
     margin-top: 4px;
   }
- 
+
   .meta-row {
     display: flex;
     gap: 10px;
     margin-bottom: 1.5rem;
   }
- 
+
   .meta-row input {
     font-family: var(--sans);
     font-size: 14px;
@@ -76,18 +76,18 @@
     outline: none;
     transition: border-color 0.15s;
   }
- 
+
   .meta-row input:focus { border-color: var(--accent); }
   .meta-row input#meeting-title { flex: 1; }
   .meta-row input#meeting-date { width: 110px; }
- 
+
   .topics-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
     margin-bottom: 1rem;
   }
- 
+
   .topic-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -95,16 +95,16 @@
     overflow: hidden;
     transition: box-shadow 0.15s;
   }
- 
+
   .topic-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
- 
+
   .topic-header {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 11px 14px;
   }
- 
+
   .topic-num {
     font-family: var(--mono);
     font-size: 11px;
@@ -112,7 +112,7 @@
     color: var(--text3);
     min-width: 20px;
   }
- 
+
   .topic-text {
     flex: 1;
     font-size: 14px;
@@ -120,7 +120,7 @@
     color: var(--text);
     cursor: pointer;
   }
- 
+
   .topic-text.editing {
     background: none;
     border: none;
@@ -133,12 +133,12 @@
     width: 100%;
     padding: 0;
   }
- 
+
   .topic-actions {
     display: flex;
     gap: 2px;
   }
- 
+
   .btn-icon {
     background: none;
     border: none;
@@ -150,36 +150,36 @@
     transition: background 0.1s, color 0.1s;
     line-height: 1;
   }
- 
+
   .btn-icon:hover { background: var(--surface2); color: var(--text2); }
   .btn-icon:disabled { opacity: 0.3; cursor: not-allowed; }
   .btn-icon.danger:hover { background: #fdecea; color: var(--danger); }
- 
+
   .subtopics {
     padding: 0 14px 10px 44px;
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
- 
+
   .subtopic-row {
     display: flex;
     align-items: center;
     gap: 8px;
   }
- 
+
   .subtopic-bullet {
     color: var(--text3);
     font-size: 12px;
     flex-shrink: 0;
   }
- 
+
   .subtopic-text {
     flex: 1;
     font-size: 13px;
     color: var(--text2);
   }
- 
+
   .subtopic-text.editing {
     background: none;
     border: none;
@@ -191,13 +191,13 @@
     width: 100%;
     padding: 0;
   }
- 
+
   .sub-add-row {
     display: flex;
     gap: 6px;
     padding: 0 14px 10px 44px;
   }
- 
+
   .sub-add-row input {
     flex: 1;
     font-family: var(--sans);
@@ -210,12 +210,12 @@
     outline: none;
     transition: border-color 0.15s, background 0.15s;
   }
- 
+
   .sub-add-row input:focus {
     background: var(--surface);
     border-color: var(--border2);
   }
- 
+
   .sub-add-row button {
     font-family: var(--sans);
     font-size: 12px;
@@ -227,15 +227,15 @@
     cursor: pointer;
     transition: background 0.1s, border-color 0.1s;
   }
- 
+
   .sub-add-row button:hover { background: var(--surface2); border-color: var(--border2); }
- 
+
   .add-topic-row {
     display: flex;
     gap: 8px;
     margin-bottom: 2rem;
   }
- 
+
   .add-topic-row input {
     flex: 1;
     font-family: var(--sans);
@@ -248,9 +248,9 @@
     outline: none;
     transition: border-color 0.15s;
   }
- 
+
   .add-topic-row input:focus { border-color: var(--accent); }
- 
+
   .btn-primary {
     font-family: var(--sans);
     font-size: 14px;
@@ -264,9 +264,9 @@
     white-space: nowrap;
     transition: background 0.15s;
   }
- 
+
   .btn-primary:hover { background: var(--accent-text); }
- 
+
   .preview-box {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -274,7 +274,7 @@
     overflow: hidden;
     margin-bottom: 1rem;
   }
- 
+
   .preview-header {
     display: flex;
     align-items: center;
@@ -283,7 +283,7 @@
     border-bottom: 1px solid var(--border);
     background: var(--surface2);
   }
- 
+
   .preview-header span {
     font-size: 12px;
     font-weight: 500;
@@ -291,7 +291,7 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
- 
+
   .btn-copy {
     font-family: var(--mono);
     font-size: 12px;
@@ -303,10 +303,10 @@
     cursor: pointer;
     transition: background 0.1s, border-color 0.1s, color 0.1s;
   }
- 
+
   .btn-copy:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent-text); }
   .btn-copy.copied { background: var(--accent-light); border-color: var(--accent); color: var(--accent-text); }
- 
+
   #preview {
     font-family: var(--mono);
     font-size: 13px;
@@ -316,12 +316,12 @@
     line-height: 1.8;
     min-height: 80px;
   }
- 
+
   .footer-actions {
     display: flex;
     justify-content: flex-end;
   }
- 
+
   .btn-clear {
     font-family: var(--sans);
     font-size: 13px;
@@ -332,9 +332,9 @@
     padding: 4px 0;
     transition: color 0.1s;
   }
- 
+
   .btn-clear:hover { color: var(--danger); }
- 
+
   .empty-state {
     text-align: center;
     padding: 2rem;
@@ -349,19 +349,19 @@
     <h1>Montador de pauta</h1>
     <p>Organize os tópicos e copie pronto para colar onde quiser</p>
   </header>
- 
+
   <div class="meta-row">
     <input type="text" id="meeting-title" placeholder="Título da reunião" oninput="updatePreview()" />
     <input type="text" id="meeting-date" placeholder="Data / hora" oninput="updatePreview()" />
   </div>
- 
+
   <div class="topics-list" id="topics-list"></div>
- 
+
   <div class="add-topic-row">
     <input type="text" id="new-topic" placeholder="Adicionar tópico à pauta..." onkeydown="if(event.key==='Enter')addTopic()" />
     <button class="btn-primary" onclick="addTopic()">+ Adicionar</button>
   </div>
- 
+
   <div class="preview-box">
     <div class="preview-header">
       <span>Prévia</span>
@@ -369,15 +369,15 @@
     </div>
     <pre id="preview">Adicione tópicos para ver a prévia...</pre>
   </div>
- 
+
   <div class="footer-actions">
     <button class="btn-clear" onclick="clearAll()">Limpar tudo</button>
   </div>
 </div>
- 
+
 <script>
 let topics = [];
- 
+
 function addTopic() {
   const input = document.getElementById('new-topic');
   const val = input.value.trim();
@@ -386,19 +386,19 @@ function addTopic() {
   input.value = '';
   render();
 }
- 
+
 function removeTopic(i) {
   topics.splice(i, 1);
   render();
 }
- 
+
 function moveTopic(i, dir) {
   const j = i + dir;
   if (j < 0 || j >= topics.length) return;
   [topics[i], topics[j]] = [topics[j], topics[i]];
   render();
 }
- 
+
 function addSubtopic(i) {
   const input = document.getElementById('sub-input-' + i);
   const val = input.value.trim();
@@ -407,16 +407,16 @@ function addSubtopic(i) {
   input.value = '';
   render();
 }
- 
+
 function removeSubtopic(i, j) {
   topics[i].subtopics.splice(j, 1);
   render();
 }
- 
+
 function esc(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
- 
+
 function render() {
   const list = document.getElementById('topics-list');
   if (topics.length === 0) {
@@ -454,7 +454,7 @@ function render() {
   `).join('');
   updatePreview();
 }
- 
+
 function updatePreview() {
   const title = document.getElementById('meeting-title').value.trim();
   const date = document.getElementById('meeting-date').value.trim();
@@ -477,7 +477,7 @@ function updatePreview() {
   }
   pre.textContent = lines.join('\n');
 }
- 
+
 function copyText() {
   const pre = document.getElementById('preview');
   navigator.clipboard.writeText(pre.textContent).then(() => {
@@ -487,7 +487,7 @@ function copyText() {
     setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
   });
 }
- 
+
 function clearAll() {
   if (!confirm('Limpar tudo?')) return;
   topics = [];
@@ -495,7 +495,7 @@ function clearAll() {
   document.getElementById('meeting-date').value = '';
   render();
 }
- 
+
 render();
 </script>
 </body>
