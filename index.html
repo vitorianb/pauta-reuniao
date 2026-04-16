@@ -1,284 +1,505 @@
+Index · HTML
+Copiar
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Gerador de Pauta de Reunião</title>
+<title>Pauta de Reunião</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
+  :root {
+    --bg: #f5f3ee;
+    --surface: #ffffff;
+    --surface2: #f0ede6;
+    --border: #ddd9d0;
+    --border2: #ccc8be;
+    --text: #1a1916;
+    --text2: #6b6860;
+    --text3: #9e9b94;
+    --accent: #2a5c45;
+    --accent-light: #e8f2ec;
+    --accent-text: #1d4332;
+    --danger: #c0392b;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+ 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f5f4f0;
-    color: #1a1a18;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 4rem;
   }
-
+ 
   .container {
-    background: #ffffff;
-    border-radius: 16px;
-    border: 0.5px solid rgba(0,0,0,0.12);
-    padding: 2rem;
-    width: 100%;
-    max-width: 640px;
+    max-width: 680px;
+    margin: 0 auto;
   }
-
-  h1 {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: #1a1a18;
+ 
+  header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
   }
-
-  .subtitle {
-    font-size: 13px;
-    color: #666660;
-    margin-bottom: 1.5rem;
+ 
+  header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
   }
-
-  .fields {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 1.5rem;
-  }
-
-  label {
-    font-size: 13px;
-    color: #666660;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  input[type="text"], select, textarea {
-    width: 100%;
-    font-family: inherit;
+ 
+  header p {
     font-size: 14px;
-    color: #1a1a18;
-    background: #ffffff;
-    border: 0.5px solid rgba(0,0,0,0.25);
-    border-radius: 8px;
-    padding: 8px 12px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+ 
+  .meta-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+ 
+  .meta-row input {
+    font-family: var(--sans);
+    font-size: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 9px 13px;
+    color: var(--text);
     outline: none;
     transition: border-color 0.15s;
   }
-
-  input[type="text"]:focus, select:focus, textarea:focus {
-    border-color: rgba(0,0,0,0.5);
-    box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
-  }
-
-  textarea {
-    resize: vertical;
-    min-height: 72px;
-    line-height: 1.6;
-  }
-
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  button.primary {
-    width: 100%;
-    padding: 10px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    color: #1a1a18;
-    background: transparent;
-    border: 0.5px solid rgba(0,0,0,0.3);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  button.primary:hover { background: rgba(0,0,0,0.05); }
-  button.primary:active { transform: scale(0.98); }
-  button.primary:disabled { opacity: 0.5; cursor: default; }
-
-  button.secondary {
-    font-family: inherit;
-    font-size: 12px;
-    padding: 4px 10px;
-    color: #1a1a18;
-    background: transparent;
-    border: 0.5px solid rgba(0,0,0,0.25);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  button.secondary:hover { background: rgba(0,0,0,0.05); }
-
-  .resultado {
-    display: none;
-    margin-top: 1.5rem;
-    border-top: 0.5px solid rgba(0,0,0,0.1);
-    padding-top: 1.5rem;
-  }
-
-  .resultado-header {
+ 
+  .meta-row input:focus { border-color: var(--accent); }
+  .meta-row input#meeting-title { flex: 1; }
+  .meta-row input#meeting-date { width: 110px; }
+ 
+  .topics-list {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 8px;
     margin-bottom: 1rem;
   }
-
-  .resultado-header span {
-    font-size: 13px;
+ 
+  .topic-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+ 
+  .topic-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+ 
+  .topic-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+  }
+ 
+  .topic-num {
+    font-family: var(--mono);
+    font-size: 11px;
     font-weight: 500;
-    color: #666660;
+    color: var(--text3);
+    min-width: 20px;
   }
-
-  #saida {
+ 
+  .topic-text {
+    flex: 1;
     font-size: 14px;
-    line-height: 1.8;
-    white-space: pre-wrap;
-    color: #1a1a18;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
   }
-
-  .erro {
-    display: none;
-    margin-top: 1rem;
-    padding: 10px 14px;
-    background: #fcebeb;
-    border-radius: 8px;
+ 
+  .topic-text.editing {
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--accent);
+    outline: none;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    width: 100%;
+    padding: 0;
+  }
+ 
+  .topic-actions {
+    display: flex;
+    gap: 2px;
+  }
+ 
+  .btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 5px;
     font-size: 13px;
-    color: #a32d2d;
+    color: var(--text3);
+    transition: background 0.1s, color 0.1s;
+    line-height: 1;
   }
-
-  @media (max-width: 480px) {
-    .row { grid-template-columns: 1fr; }
+ 
+  .btn-icon:hover { background: var(--surface2); color: var(--text2); }
+  .btn-icon:disabled { opacity: 0.3; cursor: not-allowed; }
+  .btn-icon.danger:hover { background: #fdecea; color: var(--danger); }
+ 
+  .subtopics {
+    padding: 0 14px 10px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+ 
+  .subtopic-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+ 
+  .subtopic-bullet {
+    color: var(--text3);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+ 
+  .subtopic-text {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text2);
+  }
+ 
+  .subtopic-text.editing {
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--border2);
+    outline: none;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--text);
+    width: 100%;
+    padding: 0;
+  }
+ 
+  .sub-add-row {
+    display: flex;
+    gap: 6px;
+    padding: 0 14px 10px 44px;
+  }
+ 
+  .sub-add-row input {
+    flex: 1;
+    font-family: var(--sans);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+ 
+  .sub-add-row input:focus {
+    background: var(--surface);
+    border-color: var(--border2);
+  }
+ 
+  .sub-add-row button {
+    font-family: var(--sans);
+    font-size: 12px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+  }
+ 
+  .sub-add-row button:hover { background: var(--surface2); border-color: var(--border2); }
+ 
+  .add-topic-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 2rem;
+  }
+ 
+  .add-topic-row input {
+    flex: 1;
+    font-family: var(--sans);
+    font-size: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+ 
+  .add-topic-row input:focus { border-color: var(--accent); }
+ 
+  .btn-primary {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 10px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+ 
+  .btn-primary:hover { background: var(--accent-text); }
+ 
+  .preview-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+ 
+  .preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+ 
+  .preview-header span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+ 
+  .btn-copy {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 10px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s, color 0.1s;
+  }
+ 
+  .btn-copy:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent-text); }
+  .btn-copy.copied { background: var(--accent-light); border-color: var(--accent); color: var(--accent-text); }
+ 
+  #preview {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    padding: 16px;
+    white-space: pre-wrap;
+    line-height: 1.8;
+    min-height: 80px;
+  }
+ 
+  .footer-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+ 
+  .btn-clear {
+    font-family: var(--sans);
+    font-size: 13px;
+    background: none;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.1s;
+  }
+ 
+  .btn-clear:hover { color: var(--danger); }
+ 
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text3);
+    font-size: 14px;
   }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Gerador de pauta de reunião</h1>
-  <p class="subtitle">Preencha os campos e gere uma pauta estruturada em segundos.</p>
-
-  <div class="fields">
-    <div>
-      <label for="tema">Tema / objetivo da reunião</label>
-      <input id="tema" type="text" placeholder="Ex: alinhamento semanal de fraude logística" />
-    </div>
-
-    <div class="row">
-      <div>
-        <label for="participantes">Participantes</label>
-        <input id="participantes" type="text" placeholder="Ex: time de analytics, Lucas" />
-      </div>
-      <div>
-        <label for="duracao">Duração</label>
-        <select id="duracao">
-          <option>30 min</option>
-          <option selected>45 min</option>
-          <option>1 hora</option>
-          <option>1h30</option>
-          <option>2 horas</option>
-        </select>
-      </div>
-    </div>
-
-    <div>
-      <label for="contexto">Contexto adicional (opcional)</label>
-      <textarea id="contexto" placeholder="Ex: última reunião decidimos X, há pendências em Y..."></textarea>
-    </div>
+  <header>
+    <h1>Montador de pauta</h1>
+    <p>Organize os tópicos e copie pronto para colar onde quiser</p>
+  </header>
+ 
+  <div class="meta-row">
+    <input type="text" id="meeting-title" placeholder="Título da reunião" oninput="updatePreview()" />
+    <input type="text" id="meeting-date" placeholder="Data / hora" oninput="updatePreview()" />
   </div>
-
-  <button class="primary" id="btn" onclick="gerar()">Gerar pauta ↗</button>
-
-  <div class="resultado" id="resultado">
-    <div class="resultado-header">
-      <span>Pauta gerada</span>
-      <button class="secondary" onclick="copiar()" id="copiar-btn">Copiar</button>
-    </div>
-    <div id="saida"></div>
+ 
+  <div class="topics-list" id="topics-list"></div>
+ 
+  <div class="add-topic-row">
+    <input type="text" id="new-topic" placeholder="Adicionar tópico à pauta..." onkeydown="if(event.key==='Enter')addTopic()" />
+    <button class="btn-primary" onclick="addTopic()">+ Adicionar</button>
   </div>
-
-  <div class="erro" id="erro">Algo deu errado. Verifique sua chave de API e tente novamente.</div>
+ 
+  <div class="preview-box">
+    <div class="preview-header">
+      <span>Prévia</span>
+      <button class="btn-copy" id="copy-btn" onclick="copyText()">Copiar</button>
+    </div>
+    <pre id="preview">Adicione tópicos para ver a prévia...</pre>
+  </div>
+ 
+  <div class="footer-actions">
+    <button class="btn-clear" onclick="clearAll()">Limpar tudo</button>
+  </div>
 </div>
-
+ 
 <script>
-const API_KEY = 'SUA_CHAVE_AQUI';
-
-async function gerar() {
-  const tema = document.getElementById('tema').value.trim();
-  if (!tema) { document.getElementById('tema').focus(); return; }
-
-  const participantes = document.getElementById('participantes').value.trim();
-  const duracao = document.getElementById('duracao').value;
-  const contexto = document.getElementById('contexto').value.trim();
-
-  const btn = document.getElementById('btn');
-  btn.textContent = 'Gerando...';
-  btn.disabled = true;
-
-  document.getElementById('resultado').style.display = 'none';
-  document.getElementById('erro').style.display = 'none';
-  document.getElementById('saida').textContent = '';
-
-  const prompt = `Crie uma pauta de reunião clara e objetiva em português com as seguintes informações:
-
-Tema/objetivo: ${tema}
-${participantes ? `Participantes: ${participantes}` : ''}
-Duração: ${duracao}
-${contexto ? `Contexto: ${contexto}` : ''}
-
-Formate assim:
-- Título da reunião
-- Data/hora: [a definir]
-- Duração: ${duracao}
-- Objetivo: (1 frase)
-- Tópicos com tempo estimado para cada um
-- Decisões esperadas
-- Próximos passos
-
-Seja direto e prático. Sem introduções longas.`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await res.json();
-    const texto = data.content?.map(b => b.text || '').join('') || '';
-    if (!texto) throw new Error('empty');
-
-    document.getElementById('saida').textContent = texto;
-    document.getElementById('resultado').style.display = 'block';
-  } catch {
-    document.getElementById('erro').style.display = 'block';
-  } finally {
-    btn.textContent = 'Gerar pauta ↗';
-    btn.disabled = false;
-  }
+let topics = [];
+ 
+function addTopic() {
+  const input = document.getElementById('new-topic');
+  const val = input.value.trim();
+  if (!val) return;
+  topics.push({ text: val, subtopics: [] });
+  input.value = '';
+  render();
 }
-
-function copiar() {
-  const texto = document.getElementById('saida').textContent;
-  navigator.clipboard.writeText(texto).then(() => {
-    const btn = document.getElementById('copiar-btn');
-    btn.textContent = 'Copiado!';
-    setTimeout(() => btn.textContent = 'Copiar', 2000);
+ 
+function removeTopic(i) {
+  topics.splice(i, 1);
+  render();
+}
+ 
+function moveTopic(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= topics.length) return;
+  [topics[i], topics[j]] = [topics[j], topics[i]];
+  render();
+}
+ 
+function addSubtopic(i) {
+  const input = document.getElementById('sub-input-' + i);
+  const val = input.value.trim();
+  if (!val) return;
+  topics[i].subtopics.push(val);
+  input.value = '';
+  render();
+}
+ 
+function removeSubtopic(i, j) {
+  topics[i].subtopics.splice(j, 1);
+  render();
+}
+ 
+function esc(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+ 
+function render() {
+  const list = document.getElementById('topics-list');
+  if (topics.length === 0) {
+    list.innerHTML = '';
+    updatePreview();
+    return;
+  }
+  list.innerHTML = topics.map((t, i) => `
+    <div class="topic-card">
+      <div class="topic-header">
+        <span class="topic-num">${i + 1}.</span>
+        <span class="topic-text">${esc(t.text)}</span>
+        <div class="topic-actions">
+          <button class="btn-icon" onclick="moveTopic(${i},-1)" ${i===0?'disabled':''} title="Mover para cima">↑</button>
+          <button class="btn-icon" onclick="moveTopic(${i},1)" ${i===topics.length-1?'disabled':''} title="Mover para baixo">↓</button>
+          <button class="btn-icon danger" onclick="removeTopic(${i})" title="Remover">✕</button>
+        </div>
+      </div>
+      ${t.subtopics.length > 0 ? `
+        <div class="subtopics">
+          ${t.subtopics.map((s, j) => `
+            <div class="subtopic-row">
+              <span class="subtopic-bullet">—</span>
+              <span class="subtopic-text">${esc(s)}</span>
+              <button class="btn-icon danger" onclick="removeSubtopic(${i},${j})" title="Remover">✕</button>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      <div class="sub-add-row">
+        <input id="sub-input-${i}" type="text" placeholder="Adicionar subtópico..." onkeydown="if(event.key==='Enter')addSubtopic(${i})" />
+        <button onclick="addSubtopic(${i})">+ Sub</button>
+      </div>
+    </div>
+  `).join('');
+  updatePreview();
+}
+ 
+function updatePreview() {
+  const title = document.getElementById('meeting-title').value.trim();
+  const date = document.getElementById('meeting-date').value.trim();
+  const pre = document.getElementById('preview');
+  if (topics.length === 0 && !title) {
+    pre.textContent = 'Adicione tópicos para ver a prévia...';
+    return;
+  }
+  let lines = [];
+  if (title || date) {
+    lines.push('📅 ' + [title, date].filter(Boolean).join('  ·  '));
+    lines.push('');
+  }
+  if (topics.length) {
+    lines.push('Pauta:');
+    topics.forEach((t, i) => {
+      lines.push(`  ${i + 1}. ${t.text}`);
+      t.subtopics.forEach(s => lines.push(`      — ${s}`));
+    });
+  }
+  pre.textContent = lines.join('\n');
+}
+ 
+function copyText() {
+  const pre = document.getElementById('preview');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copiado ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
   });
 }
+ 
+function clearAll() {
+  if (!confirm('Limpar tudo?')) return;
+  topics = [];
+  document.getElementById('meeting-title').value = '';
+  document.getElementById('meeting-date').value = '';
+  render();
+}
+ 
+render();
 </script>
 </body>
 </html>
